@@ -45,6 +45,29 @@ docker logs ws2
 docker rm ws2
 ```
 
+### 도커를 이용한 웹서버
+우선 웹서버(아파치,nginx)가 컨테이너에 설치가 됩니다<br/>
+이러한 컨테이너가 설치된 운영체제를 docker host 라고 부르며<br/>
+하나의 도커 호스트에너는 여러개의 컨테이너가 만들어질수있습니다<br/>
+호스트와 컨테이너는 모두 독립적인 실행환경 이기 때문에 호스트와 컨테이너의 포트를 연결해주어야합니다<br/>
+즉 포트포워딩을 해주어야합니다
+```
+docker run -p 80:80 httpd
+//호스트포트 : 컨테이너 포트
+docker run --name ws3 -p 8081:80 httpd
+```
 
+### 컨테이너 내부 명령어 실행
+```
+docker run -p 80:80 httpd
+//호스트포트 : 컨테이너 포트
+docker run --name ws3 -p 8081:80 httpd
+```
 
+### 호스트 파일 시스템과 컨테이너 연결하기
+```
+docker run -p 80:80 httpd
+//호스트포트 : 컨테이너 포트
+docker run --name ws3 -p 8081:80 httpd
+```
 
