@@ -71,3 +71,58 @@ docker run -p 80:80 httpd
 docker run --name ws3 -p 8081:80 httpd
 ```
 
+
+## Docker Compose
+Docker compose란 여러개의 컨테이너로부터 이루어진 서비스를 구축,실행하는 순서를 자동으로 하여 관리하는 기능입니다
+
+### Docker Compose 실행
+```
+docker-compose up
+```
+### Docker Compose Stop
+```
+docker-compose up
+```
+
+### docker-compose.yml
+version : 컴포저 버전 명시<br/>
+services : 컨테이너 모음<br/>
+image : 도커 이미지<br/>
+db,app : 컨테이너 이름 명시<br/>
+volumes : 호스트파일시스템과 컨테이너 파일 시스템 연결<br/>
+environment : 환경변수<br/>
+depends_on : 컨테이너 실행 순서 정의(db 부터 만들어진다)<br/>
+ports: 포트포워딩 설정<br/>
+```
+version: "3.7"
+
+services:
+  db:
+    platform: linux/amd64
+    image: mysql:5.7
+    volumes:
+      - ./db_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress_user
+      MYSQL_PASSWORD: 123456
+  
+  app:
+    platform: linux/amd64
+    depends_on: 
+      - db
+    image: wordpress:latest
+    volumes:
+      - ./app_data:/var/www/html
+    ports:
+      - "8080:80"
+    restart: always
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_USER: wordpress_user
+      WORDPRESS_DB_PASSWORD: 123456
+```
+
